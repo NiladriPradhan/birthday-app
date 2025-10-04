@@ -359,6 +359,15 @@
 //     );
 // }
 
+
+
+
+
+
+
+
+
+
 // Hero.jsx
 "use client";
 import { motion } from "framer-motion";
@@ -450,18 +459,6 @@ export default function Hero() {
           >
             🎂
           </motion.div>
-
-          {/* 👤 Profile Image */}
-          {/* <motion.img
-            src="/images/srija.jpg"
-            alt="Birthday Girl"
-            className="mt-8 w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-pink-500 shadow-lg object-cover"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-          /> */}
-
-          {/* 🌸 Rotating Wishes */}
           <motion.p
             key={quoteIndex}
             initial={{ opacity: 0, y: 10 }}
