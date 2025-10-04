@@ -25,10 +25,32 @@ export default function Guestbook({ setIsOpened }) {
   }, []);
 
   // Add new wish
+  // const addMessage = async (e) => {
+  //   e.preventDefault();
+  //   if (!name || !message) return;
+  //   setIsOpened(false);
+
+  //   try {
+  //     await addDoc(collection(db, "messages"), {
+  //       name,
+  //       message,
+  //       timestamp: serverTimestamp(),
+  //       date: new Date().toLocaleDateString(),
+  //       image: `https://ui-avatars.com/api/?name=${encodeURIComponent(
+  //         name || "Anonymous"
+  //       )}&background=random`, // auto avatar
+  //     });
+  //     setName("");
+  //     setMessage("");
+  //   } catch (error) {
+  //     console.error("❌ Error adding message:", error);
+  //   }
+  // };
+
+  // Add new wish
   const addMessage = async (e) => {
     e.preventDefault();
     if (!name || !message) return;
-    setIsOpened(false);
 
     try {
       await addDoc(collection(db, "messages"), {
@@ -38,14 +60,20 @@ export default function Guestbook({ setIsOpened }) {
         date: new Date().toLocaleDateString(),
         image: `https://ui-avatars.com/api/?name=${encodeURIComponent(
           name || "Anonymous"
-        )}&background=random`, // auto avatar
+        )}&background=random`,
       });
+
+      // clear inputs
       setName("");
       setMessage("");
+
+      // ✅ close modal after successful add
+      setIsOpened(false);
     } catch (error) {
       console.error("❌ Error adding message:", error);
     }
   };
+
 
   return (
     <section className="px-6 bg-white relative">
@@ -78,31 +106,6 @@ export default function Guestbook({ setIsOpened }) {
           🎉 Submit Wish
         </button>
       </form>
-
-      {/* Wishes Feed */}
-      {/* <div className="mt-12 max-w-2xl mx-auto h-80 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-pink-400 scrollbar-track-transparent">
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className="p-5 rounded-xl bg-white/80 backdrop-blur-md border border-white/40 shadow hover:shadow-md transition flex gap-4 items-start"
-          >
-            <img
-              src={msg.image}
-              alt={msg.name || "Anonymous"}
-              className="w-12 h-12 rounded-full border shadow"
-            />
-
-            <div>
-              <p className="text-gray-800 text-lg leading-relaxed">
-                {msg.message}
-              </p>
-              <span className="text-sm text-pink-600 font-medium mt-2 block">
-                — {msg.name || "Anonymous"}
-              </span>
-            </div>
-          </div>
-        ))}
-      </div> */}
     </section>
   );
 }

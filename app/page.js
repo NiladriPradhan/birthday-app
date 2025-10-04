@@ -17,9 +17,9 @@ export default function Home() {
     min-h-screen text-gray-900 ">
       <Hero />
       <ImageSlider />
-      <Messages />
       <BirthdaySong />
       <GiftReveal />
+      {/* <Messages /> */}
       {/* <FriendsWall /> */}
       {/* <Gallery /> */}
       {/* <Education /> */}

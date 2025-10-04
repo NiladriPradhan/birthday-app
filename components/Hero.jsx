@@ -359,31 +359,45 @@
 //     );
 // }
 
-
 // Hero.jsx
 "use client";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 import { useEffect, useState } from "react";
-import Guestbook from "./Guestbook";
 import SectionMusic from "./SectionMusic";
 
 export default function Hero() {
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
-  const [isOpened, setIsOpened] = useState(false);
+  const [quoteIndex, setQuoteIndex] = useState(0);
+
+  const balloons = ["🎈", "🎈", "🎈", "🎈", "🎈"];
+
+  // Rotating wishes/quotes
+  const quotes = [
+    "🌸 May your smile shine brighter this year!",
+    "🌟 Here’s to adventures, love & laughter!",
+    "💖 Another year older, wiser, and more amazing!",
+    "🎶 May your life be filled with sweet melodies!",
+  ];
 
   useEffect(() => {
     setWindowSize({ width: window.innerWidth, height: window.innerHeight });
-  }, []);
 
-  const balloons = ["🎈", "🎈", "🎈", "🎈", "🎈"];
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % quotes.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <SectionMusic src="/mp3/pal-do-pal-ka-ye-Safar.mp3">
       <section className="bg-black w-full relative overflow-hidden">
-        <section className="container mx-auto flex flex-col items-center justify-center min-h-screen text-center relative">
+        <section className="container mx-auto flex flex-col items-center justify-center min-h-screen text-center relative px-4">
+          {/* 🎉 Confetti */}
           <Confetti width={windowSize.width} height={windowSize.height} />
 
+          {/* 🎈 Floating balloons */}
           {balloons.map((b, i) => (
             <motion.div
               key={i}
@@ -400,20 +414,13 @@ export default function Hero() {
             </motion.div>
           ))}
 
+          {/* 🎂 Title */}
           <motion.h1
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             className="text-5xl mt-14 md:text-7xl font-bold z-50"
           >
-            {/*
-            🎉
-             <span className="bg-gradient-to-r from-pink-500 via-purple-600 to-blue-500 bg-clip-text text-transparent">
-              Happy Birthday,{" "}
-              <span className="bg-gradient-to-r from-green-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
-                Srija
-              </span>
-            </span> */}
             🎉<span className="bg-gradient-to-tr from-[#f545ae] via-[#81be4e] to-[#42d9f5] bg-clip-text text-transparent font-extrabold">
               Happy Birthday,{" "}
               <span className="bg-gradient-to-tr from-[#00ff94] via-[#ffea00] to-[#ff4d6d] bg-clip-text text-transparent font-extrabold">
@@ -423,15 +430,18 @@ export default function Hero() {
             🎉
           </motion.h1>
 
+          {/* 💌 Subtext */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="mt-4 text-lg md:text-2xl text-gray-400 z-50"
+            className="mt-4 text-lg md:text-2xl text-gray-400 z-50 max-w-2xl"
           >
-            Wishing you joy, laughter & endless memories 💖
+            Wishing you joy, laughter & endless memories 💖 <br />
+            May this year be filled with love, success, and happiness ✨
           </motion.p>
 
+          {/* 🎂 Cake Emoji */}
           <motion.div
             className="mt-10 text-6xl md:text-8xl z-50"
             initial={{ scale: 0 }}
@@ -441,39 +451,28 @@ export default function Hero() {
             🎂
           </motion.div>
 
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            className="mt-8 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-600 to-blue-500 text-white font-semibold shadow-lg hover:scale-105 transition-transform duration-300 z-50"
-            onClick={() => setIsOpened(true)}
+          {/* 👤 Profile Image */}
+          {/* <motion.img
+            src="/images/srija.jpg"
+            alt="Birthday Girl"
+            className="mt-8 w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-pink-500 shadow-lg object-cover"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+          /> */}
+
+          {/* 🌸 Rotating Wishes */}
+          <motion.p
+            key={quoteIndex}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mt-8 text-lg md:text-xl text-pink-400 italic z-50"
           >
-            💌 Leave a Wish
-          </motion.button>
+            {quotes[quoteIndex]}
+          </motion.p>
         </section>
-
-        {isOpened && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-50">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-2xl shadow-lg w-lg p-6 px-2 relative"
-            >
-              <button
-                onClick={() => setIsOpened(false)}
-                className="absolute top-3 right-3 text-gray-600 hover:text-red-500 text-xl"
-              >
-                ✖
-              </button>
-
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                ✨ Leave your Birthday Wish ✨
-              </h2>
-              <Guestbook setIsOpened={setIsOpened} />
-            </motion.div>
-          </div>
-        )}
       </section>
     </SectionMusic>
   );
