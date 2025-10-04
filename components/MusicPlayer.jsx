@@ -22,5 +22,5 @@ export default function MusicPlayer({ src, play }) {
     }
   }, [play, src]);
 
-  return <audio ref={audioRef} src={src} loop />;
+  return <audio ref={audioRef}  preload="auto" src={src} loop />;
 }
